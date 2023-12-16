@@ -1,0 +1,309 @@
+<!-- prediction.html -->
+ <!--
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Uber Fare Amount Prediction</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h2>ML Model Prediction</h2>
+       
+
+       
+       
+        <form method="post" action="" class="mt-4">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="passenger_count">Passenger Count:</label>
+                <input type="number" class="form-control" id="passenger_count" name="passenger_count" step="1" required>
+            </div>
+            <div class="form-group">
+                <label for="hour">Hour:</label>
+                <input type="number" class="form-control" id="hour" name="hour" step="1" required>
+            </div>
+            <div class="form-group">
+                <label for="month">Month:</label>
+                <input type="number" class="form-control" id="month" name="month" step="1" required>
+            </div>
+             <div class="form-group">
+                <label for="Weekday">Weekday:</label>
+                <input type="number" class="form-control" id="Weekday" name="Weekday" step="1" required>
+            </div>
+           <div class="form-group">
+                <label for="year">year:</label>
+                <input type="number" class="form-control" id="year" name="year" step="1" required>
+            </div>
+             <div class="form-group">
+                <label for="distance">distance:</label>
+                <input type="number" class="form-control" id="distance" name="distance" step="1" required>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary mt-3">Predict Fare Amount</button>
+        </form>
+        <hr>
+        {% if result %}
+    <div class="fare-result">
+        <h1>Estimated Fare Amount:</h1>
+        <p>The predicted fare amount is: <strong>{{ result }}</strong></p>
+    </div>
+{% endif %}
+
+
+         
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
+
+
+
+
+
+
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Uber Fare Amount Prediction</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        /* Styling for the body background */
+        
+       body {
+    position: relative;
+    background-image: url('https://th.bing.com/th/id/R.7dcc6afead7727e75d23f7a5032aa50a?rik=rOZwZxwpKuXVpw&riu=http%3a%2f%2fsoftwareengineeringdaily.com%2fwp-content%2fuploads%2f2019%2f08%2fuber.jpeg&ehk=JtRjw80tWJhexHdTO9X%2f5NduwiuHUdiVuUN9yFgza%2b8%3d&risl=&pid=ImgRaw&r=0');
+    background-size: cover;
+    background-position: center;
+    color: #333;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust the last value for opacity */
+    z-index: -1; /* Ensure the pseudo-element is rendered below other content */
+}
+        /* Styling for the form labels */
+        label {
+            color: #ff0000; /* Change this to your desired label color */
+            font-weight: bold;
+        }
+
+        /* Styling for the result section */
+        .fare-result {
+            background-color: #ff0000; /* Change this to your desired result section background color */
+            color: #fff; /* Change this to your desired result section text color */
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        /* Styling for the 'Predict Fare Amount' button */
+        .btn-primary {
+            background-color:  #ff0000; /* Change this to your desired button background color */
+            border-color: #ff0000;
+        }
+
+        .btn-primary:hover {
+            background-color: #cc0000; /* Change this to your desired button hover color */
+            border-color: #cc0000;
+        }
+         .prediction-heading {
+            text-align: center;
+            color: #ff0000; /* Change this to your desired heading color */
+             margin-bottom: 20px;
+        }
+        @media (min-width: 768px){
+             .custom-offset-md-3 {
+                margin-left: auto; /* Shift content to the right */
+            }
+
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 custom-offset-md-3">
+        <h2 class="prediction-heading">Uber Fare Amount Prediction Application </h2>
+
+      
+        <form method="post" action="" class="mt-4">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="passenger_count">Passenger Count:</label>
+                <input type="number" class="form-control" id="passenger_count" name="passenger_count" step="1" required>
+            </div>
+            <div class="form-group">
+                <label for="hour">Hour:</label>
+                <input type="number" class="form-control" id="hour" name="hour" step="1" required>
+            </div>
+            <div class="form-group">
+                <label for="month">Month:</label>
+                <input type="number" class="form-control" id="month" name="month" step="1" required>
+            </div>
+             <div class="form-group">
+                <label for="Weekday">Weekday:</label>
+                <input type="number" class="form-control" id="Weekday" name="Weekday" step="1" required>
+            </div>
+           <div class="form-group">
+                <label for="year">year:</label>
+                <input type="number" class="form-control" id="year" name="year" step="1" required>
+            </div>
+             <div class="form-group">
+                <label for="distance">distance:</label>
+                <input type="number" class="form-control" id="distance" name="distance" step="1" required>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary mt-3">Predict Fare Amount</button>
+  </form>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-6 offset-md-3 custom-offset-md-3">
+                {% if result %}
+                <div class="fare-result text-center">
+                    <h4>Estimated Fare Amount:</h4>
+                    <p>The predicted fare amount is: <strong>{{ result }}</strong></p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
+
+<!--
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Uber Fare Amount Prediction</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        /* Styling for the body background */
+        
+         body {
+            background-image: url('https://i.pinimg.com/originals/ff/55/6f/ff556f66e06235247224c56e4470ebf7.jpg'); /* Replace this URL with your image */
+            background-size: cover;
+            background-position: center;
+            color: #333;
+        }
+
+        /* Styling for the form labels */
+        label {
+            color: #007bff; /* Change this to your desired label color */
+            font-weight: bold;
+        }
+
+        /* Styling for the result section */
+        .fare-result {
+            background-color: #007bff; /* Change this to your desired result section background color */
+            color: #fff; /* Change this to your desired result section text color */
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        /* Styling for the 'Predict Fare Amount' button */
+        .btn-primary {
+            background-color: #007bff; /* Change this to your desired button background color */
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Change this to your desired button hover color */
+            border-color: #0056b3;
+        }
+         .prediction-heading {
+            text-align: center;
+            color: #007bff; /* Change this to your desired heading color */
+             margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h2 class="prediction-heading">Uber Fare Amount Prediction Application </h2>
+
+      
+        <form method="post" action="" class="mt-4">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="passenger_count">Passenger Count:</label>
+                <input type="number" class="form-control" id="passenger_count" name="passenger_count" step="1" required>
+            </div>
+            <div class="form-group">
+                <label for="hour">Hour:</label>
+                <input type="number" class="form-control" id="hour" name="hour" step="1" required>
+            </div>
+            <div class="form-group">
+                <label for="month">Month:</label>
+                <input type="number" class="form-control" id="month" name="month" step="1" required>
+            </div>
+             <div class="form-group">
+                <label for="Weekday">Weekday:</label>
+                <input type="number" class="form-control" id="Weekday" name="Weekday" step="1" required>
+            </div>
+           <div class="form-group">
+                <label for="year">year:</label>
+                <input type="number" class="form-control" id="year" name="year" step="1" required>
+            </div>
+             <div class="form-group">
+                <label for="distance">distance:</label>
+                <input type="number" class="form-control" id="distance" name="distance" step="1" required>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary mt-3">Predict Fare Amount</button>
+        </form>
+        <hr>
+
+        {% if result %}
+            <div class="fare-result">
+                <h1>Estimated Fare Amount:</h1>
+                <p>The predicted fare amount is: <strong>{{ result }}</strong></p>
+            </div>
+        {% endif %}
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
+-->
